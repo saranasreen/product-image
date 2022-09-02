@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	html,
+body {
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    background-color: "f8f8f8";
+}
+</style>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+
+</head>
+<body>
+    <section id="controls">
+
+        <div id="inputelements">
+    
+            <div class="row">
+    
+                <span class="inputfield">
+                    <label for="colorInput">Color mode</label>
+                    <select id="colorInput">
+                        <option selected = "selected" value="black">black</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                        <option value="grey">grey</option>
+                        <option value="olive">olive</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="white">white</option>
+                        <option value="yellow">yellow</option>
+                    </select>
+                </span>
+
+                <span class="inputfield">
+                    <label for="sizeInput">Size</label>
+                    <select id="sizeInput">
+                        <option selected = "selected" value="11.5 mm / 0.45 in">11.5 mm / 0.45 in</option>
+                        <option value="13.5 mm / 0.53 in">13.5 mm / 0.53 in</option>
+                        <option value="15 mm / 0.6 in">15 mm / 0.6 in</option>
+                        <option value="17 mm / 0.66 in">17 mm / 0.66 in</option>
+                        <option value="18 mm / 0.7 in">18 mm / 0.7 in</option>
+                    </select>
+                </span>
+    
+            </div>
+        </div>
+    
+    </section>
+	<canvas id="myCanvas" resize></canvas>
+    <script type="text/javascript">
+        paper.install(window);
+        window.onload = function() {
+            paper.setup('myCanvas');
+
+            
+            var sizeText = new PointText({
+                point: [50, 50],
+                content: '11.5 mm / 0.45 in',
+                fillColor: 'black',
+                fontFamily: 'Courier New',
+                fontWeight: 'bold',
+                fontSize: 25
+            });
+
+            // Create a raster item:
+            var rasterMask = new Raster({
+    			source: 'img/standard/layers/11.5/raw/ISO-Rendered-Sq-t.png',
+                position: view.center,
+                visible: true
+    			
+			});
+            
+            
+            rasterMask.fitBounds(view.bounds)
+            
+            var raster_size = new Size(rasterMask.bounds.width, rasterMask.bounds.height)
+            var raster_top_left = new Point(rasterMask.bounds.x, rasterMask.bounds.y)
+
+            var rect = new Rectangle(raster_top_left, raster_size);
+
+            var mask1 = new Path.Rectangle(rect);
+            mask1.fillColor = 'black'
+            //mask1.opacity = 0
+            mask1.blendMode = 'xor'
+            var mask2 = new Path.Rectangle(rect);
+            mask2.fillColor = 'black'
+            mask2.blendMode = 'xor'
+
+            // Create a raster item:
+            var raster = new Raster(    {
+    			source: 'img/standard/layers/11.5/raw/ISO-PEN-t.png',
+                position: view.center,
+                
+			});
+            raster.fitBounds(view.bounds)
+
+            // Create a group of the two items and clip it:
+            //var group = new Group(rasterMask, mask2);
+            //group.blendMode = 'multiply';
+
+            function colorSelect(){
+                mask2.fillColor = this.value
+            }
+            function sizeSelect(){
+                sizeText.content = this.value
+            }
+
+            document.getElementById("colorInput").onchange = colorSelect
+            document.getElementById("sizeInput").onchange = sizeSelect
+    
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	html,
+body {
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    background-color: "f8f8f8";
+    position: absolute;
+}
+</style>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+
+<script type="text/javascript" src="js/style_wallpaper.js"></script>
+<script type="text/javascript" src="js/draw.js"></script>
+<script type="text/javascript" src="js/cell.js"></script>
+
+</head>
+<body>
+    <section id="controls">
+
+        <div id="inputelements">
+    
+            <div class="row">
+    
+                <span class="inputfield">
+                    <label for="colorInput">Base Color</label>
+                    <select id="colorInput">
+                        <option value="black">black</option>
+                        <option selected = "selected" value="blue">blue</option>
+                        <option value="green">green</option>
+                        <option value="grey">grey</option>
+                        <option value="olive">olive</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="white">white</option>
+                        <option value="yellow">yellow</option>
+                    </select>
+                </span>
+
+                <span class="inputfield">
+                    <label for="l2Input">Layer 2 Color</label>
+                    <select id="l2Input">
+                        <option value="black">black</option>
+                        <option selected = "selected" value="blue">blue</option>
+                        <option value="green">green</option>
+                        <option value="grey">grey</option>
+                        <option value="olive">olive</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="white">white</option>
+                        <option value="yellow">yellow</option>
+                    </select>
+                </span>
+
+                <span class="inputfield">
+                    <label for="additionalInput">Additional Hardware Type</label>
+                    <select id="additionalInput">
+                        <option selected = "selected" value="ss">Stainless Steel</option>
+                        <option value="bo">Black Oxide</option>
+                    </select>
+                </span>
+    
+            </div>
+        </div>
+    
+    </section>
+    
+    <canvas id="bgCanvas" resize></canvas>
+    <canvas id="myCanvas" resize></canvas>
+    <canvas id="l2Canvas" resize></canvas> 
+	
+          
+    <script type="text/javascript">
+        paper.install(window);
+        window.onload = function() {
+            var scope = new paper.PaperScope();
+            var scope2 = new paper.PaperScope();
+            var scope3 = new paper.PaperScope();
+                    
+            var canvas_1 = document.getElementById('bgCanvas');
+            scope.setup(bgCanvas)
+            var canvas_2 = document.getElementById('myCanvas');
+            scope2.setup(myCanvas)
+            var canvas_3 = document.getElementById('l2Canvas');
+            scope3.setup(l2Canvas)
+
+            /*--SCREEN OPTIONS--*/
+
+		    var options = {
+			    "gameboy":[0.976, 0.976],
+			    "high": [0.995, 0.989],
+			    "normal_1": [0.996, 0.977],
+			    "normal": [0.99, 0.983],
+			    "main_width": 3/4,
+			    "fade_rate": "slow"
+		    }
+
+		    /*-- SET RESOLUTION--*/
+		    var resolution = options["normal"];
+                    
+            scope.activate();
+            var frame_size = new Size(scope.view.bounds.width, scope.view.bounds.height)
+            var frame_top_left = new Point(scope.view.bounds.x, scope.view.bounds.y)
+
+            var curr_rate = 0
+            var rate = -0.005
+            var pirate = 3.5
+            var alpha = 0.5
+            var row_width = 1
+            
+            var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
+            
+            //update twill
+            
+            var num_rows = Math.round(tile.data.length * row_width);
+            
+            for(var j = 0; j<26; j++){
+		        for(var i = num_rows-1; i >= 0; i--){
+		    		var reversed = num_rows - i;
+		    		var fraction = reversed / num_rows;
+		    		//add this number to fadevalues[0]
+		    		var curr_rate = (pirate * Math.pow(j,1)) * (Math.pow(Math.sin(fraction*(Math.PI / 2)), pirate) * rate);
+                
+		    		for(var k = 0; k < tile.data[i].length; k++){
+		    			if(tile.data[i][k].type == "warp"){
+		    				tile.data[i][k].rectangle.fillColor = set_warp_gradient(tile.data[i][k].position, tile.data[i][k].size, alpha, curr_rate);
+		    			} else {
+		    				tile.data[i][k].rectangle.fillColor = set_weft_gradient(tile.data[i][k].position, tile.data[i][k].size, alpha, curr_rate);
+		    			}
+		    		}
+		    			}
+                    }
+
+            var png = new Raster({
+                source: 'raw/standard-featured-shadow.png',
+                position: new Point(scope2.view.center.x+2, scope2.view.center.y-7)
+            })
+            png.scale(0.5)
+
+            
+            scope2.activate();
+
+            
+            var pla_colors = {
+                'black': '#000',
+                'blue': '#009',
+                'green': '#033',
+                'grey': '#708090',
+                'olive': '#bdb76b',
+                'orange': '#f63',
+                'red': '#f30',
+                'white': '#f5f5f5',
+                'yellow': '#ffd700'
+
+            }
+
+
+            //scope2.project.clear()
+
+            
+
+            var c = new Path.Circle(scope2.view.center, scope2.view.bounds.width / 2)
+            c.fillColor = pla_colors['blue']
+
+            var png1 = new Raster({
+                source: 'raw/standard-01-01.png',
+                position: scope2.view.center
+            })
+            png1.scale(0.5)
+            png1.blendMode = 'destination-atop'
+            console.log(png1)
+
+            var png2 = new Raster({
+                source: 'raw/standard-01-01.png',
+                position: scope2.view.center
+            })
+            png2.scale(0.5)
+            png2.blendMode = 'multiply'
+
+
+            /*
+            'normal', 'multiply', 'screen', 'overlay', 'soft-light',
+            'hard-light', 'color-dodge', 'color-burn', 'darken',
+            'lighten', 'difference', 'exclusion', 'hue', 'saturation',
+            'luminosity', 'color', 'add', 'subtract', 'average',
+            'pin-light', 'negation', 'source-over', 'source-in',
+            'source-out', 'source-atop', 'destination-over', 'destination-in',
+            'destination-out', 'destination-atop', 'lighter', 'darker',
+            'copy', 'xor'
+            */
+
+            scope3.activate();
+
+            var c2 = new Path.Circle(scope2.view.center, scope2.view.bounds.width / 2)
+            c2.fillColor = pla_colors['blue']
+
+            var png3 = new Raster({
+                source: 'raw/standard-02-01.png',
+                position: scope3.view.center
+            })
+            png3.scale(0.5)
+            png3.blendMode = 'destination-atop'
+
+            var png4 = new Raster({
+                source: 'raw/standard-02-01.png',
+                position: scope2.view.center
+            })
+            png4.scale(0.5)
+            png4.blendMode = 'multiply'
+
+            var png3 = new Raster({
+                source: 'raw/standard-ss.png',
+                position: scope2.view.center
+            })
+            png3.scale(0.5)
+
+
+            function colorSelect(){
+                c.fillColor = pla_colors[this.value]
+                if(this.value=='black' ){
+                    png2.blendMode = 'hard-light'
+                } else if(this.value=='white' ){
+                    png2.blendMode = 'average'
+                } else {
+                    png2.blendMode = 'multiply'
+                }
+            
+            }
+            function sizeSelect(){
+            }
+
+            function additionalSelect(){
+                newsource = png3.source.slice(0,png3.source.length-6) + this.value + '.png'
+                png3.source = newsource
+            }
+            
+            function l2Select(){
+                c2.fillColor = pla_colors[this.value]
+                if(this.value=='black' ){
+                    png4.blendMode = 'hard-light'
+                } else if(this.value=='white' ){
+                    png4.blendMode = 'average'
+                } else {
+                    png4.blendMode = 'multiply'
+                }
+
+            }
+
+            document.getElementById("colorInput").onchange = colorSelect
+            document.getElementById("additionalInput").onchange = additionalSelect
+            document.getElementById("l2Input").onchange = l2Select
+    
+        }
+    </script> 
+</body>
+</html>

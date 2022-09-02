@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	html,
+body {
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    background-color: "f8f8f8";
+}
+</style>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/javascript" src="js/style_wallpaper.js"></script>
+<script type="text/javascript" src="js/draw.js"></script>
+<script type="text/javascript" src="js/cell.js"></script>
+
+<script type="text/javascript">
+	paper.install(window);
+	window.onload = function() {
+		paper.setup('myCanvas');
+
+        /*--SCREEN OPTIONS--*/
+
+		var options = {
+			"gameboy":[0.976, 0.976],
+			"high": [0.995, 0.989],
+			"normal_1": [0.996, 0.977],
+			"normal": [0.99, 0.983],
+			"main_width": 3/4,
+			"fade_rate": "slow"
+		}
+
+		/*-- SET RESOLUTION--*/
+		var resolution = options["normal"];
+
+        // denim wallpaper background size and position
+		var frame_size = new Size(view.bounds.width, view.bounds.height)
+		var frame_top_left = new Point(view.bounds.x, view.bounds.y)
+
+        var curr_rate = 0
+        var rate = -0.005
+        var pirate = 3.5
+        var alpha = 0.5
+        var row_width = 1
+
+        var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
+
+        //update twill
+
+        var num_rows = Math.round(tile.data.length * row_width);
+
+        for(var j = 0; j<26; j++){
+		    for(var i = num_rows-1; i >= 0; i--){
+				var reversed = num_rows - i;
+				var fraction = reversed / num_rows;
+				//add this number to fadevalues[0]
+				var curr_rate = (pirate * Math.pow(j,1)) * (Math.pow(Math.sin(fraction*(Math.PI / 2)), pirate) * rate);
+	
+				for(var k = 0; k < tile.data[i].length; k++){
+					if(tile.data[i][k].type == "warp"){
+						tile.data[i][k].rectangle.fillColor = set_warp_gradient(tile.data[i][k].position, tile.data[i][k].size, alpha, curr_rate);
+					} else {
+						tile.data[i][k].rectangle.fillColor = set_weft_gradient(tile.data[i][k].position, tile.data[i][k].size, alpha, curr_rate);
+					}
+				}
+
+					}
+                }
+
+		var shadow = new Raster({
+    		source: 'img/cap/layers/11.5/raw/standard-stem-shadow.png',
+    		position: [view.center.x -10, view.center.y+25]
+		});
+		shadow.scale(0.55);
+
+        var raster = new Raster({
+    		source: 'img/cap/layers/13.5/raw/ISO-Rendered.png',
+    		position: [view.center.x -10, view.center.y+25]
+		});
+		raster.scale(0.55);
+
+        
+	}
+</script>
+</head>
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>

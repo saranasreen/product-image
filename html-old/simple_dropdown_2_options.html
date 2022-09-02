@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	html,
+body {
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+    background-color: "f8f8f8";
+}
+</style>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/javascript" src="js/style_wallpaper.js"></script>
+<script type="text/javascript" src="js/draw.js"></script>
+<script type="text/javascript" src="js/cell.js"></script>
+
+
+</head>
+<body>
+    <section id="controls">
+
+        <div id="inputelements">
+    
+            <div class="row">
+    
+                <span class="inputfield">
+                    <label for="colorInput">Color mode</label>
+                    <select id="colorInput">
+                        <option selected = "selected" value="black">black</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                        <option value="grey">grey</option>
+                        <option value="olive">olive</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="white">white</option>
+                        <option value="yellow">yellow</option>
+                    </select>
+                </span>
+
+                <span class="inputfield">
+                    <label for="sizeInput">Size</label>
+                    <select id="sizeInput">
+                        <option selected = "selected" value="11.5 mm / 0.45 in">11.5 mm / 0.45 in</option>
+                        <option value="13.5 mm / 0.53 in">13.5 mm / 0.53 in</option>
+                        <option value="15 mm / 0.6 in">15 mm / 0.6 in</option>
+                        <option value="17 mm / 0.66 in">17 mm / 0.66 in</option>
+                        <option value="18 mm / 0.7 in">18 mm / 0.7 in</option>
+                    </select>
+                </span>
+    
+            </div>
+        </div>
+    
+    </section>
+	<canvas id="myCanvas" resize></canvas>
+    <script type="text/javascript">
+        paper.install(window);
+        window.onload = function() {
+            paper.setup('myCanvas');
+    
+            var frame_size = new Size(view.bounds.width, view.bounds.height)
+            var frame_top_left = new Point(view.bounds.x, view.bounds.y)
+    
+            var rect = new Rectangle(frame_top_left, frame_size);
+            var path = new Path.Rectangle(rect);
+            path.fillColor = 'black'
+
+            var sizeText = new PointText({
+                point: [50, 50],
+                content: '11.5 mm / 0.45 in',
+                fillColor: 'white',
+                fontFamily: 'Courier New',
+                fontWeight: 'bold',
+                fontSize: 25
+            });
+
+            function colorSelect(){
+                path.fillColor = this.value
+            }
+            function sizeSelect(){
+                sizeText.content = this.value
+            }
+
+            document.getElementById("colorInput").onchange = colorSelect
+            document.getElementById("sizeInput").onchange = sizeSelect
+    
+        }
+    </script>
+</body>
+</html>
