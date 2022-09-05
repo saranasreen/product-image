@@ -1,8 +1,9 @@
 function set_weft_gradient(position, cell_size, site_alpha, curr_rate) {
 	var alpha = site_alpha + curr_rate;
-	var warp_high = new Color(alpha);
-	var warp_low = new Color(0);
-	var warp_low = new Color(alpha * 0.79);
+	/*var warp_high = new Color(0,0,0,alpha*0.01)
+	var warp_low = new Color(0,0,0,alpha*0.6)*/
+	var warp_high = new Color(1,1,1,alpha*0.7)
+	var warp_low = new Color(1,1,1,alpha*0.3)
 	
 	var origin = new Point(position.x + cell_size.width / 2, position.y);
 	var destination = new Point(position.x + cell_size.width / 2, position.y + cell_size.height);
@@ -19,8 +20,10 @@ function set_weft_gradient(position, cell_size, site_alpha, curr_rate) {
 
 function set_warp_gradient(position, cell_size, site_alpha, curr_rate) {
 	var alpha = site_alpha + curr_rate;
-	var weft_high = new Color(alpha * 0.9);
-	var weft_low = new Color(alpha * 0.79);
+	/*var weft_high = new Color(0,0,0, alpha*0.3)
+	var weft_low = new Color(0,0,0, alpha * 0.7)*/
+	var weft_high = new Color(1,1,1, alpha*0.5)
+	var weft_low = new Color(1,1,1, alpha * 0.01)
 
 	var origin = new Point(position.x, position.y + cell_size.height / 2);
 	var destination = new Point(position.x + cell_size.width, position.y + cell_size.height / 2);

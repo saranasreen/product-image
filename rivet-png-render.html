@@ -110,13 +110,36 @@ canvas[resize] {
             scope.activate();
             var frame_size = new Size(scope.view.bounds.width, scope.view.bounds.height)
             var frame_top_left = new Point(scope.view.bounds.x, scope.view.bounds.y)
-
-            var curr_rate = 0
-            var rate = -0.005
-            var pirate = 3.5
-            var alpha = 0.5
-            var row_width = 1
+            var rect = new Rectangle(frame_top_left, frame_size);
+		    var path = new Path.Rectangle(rect);
+            //var warp_high = new Color(119/255, 136/255, 153/255,1)
+	        //var warp_low = new Color(0,0,0,0.99)
             
+            var warp_high = new Color(119/255, 136/255, 153/255,1)
+	        var warp_low = new Color(1,1,1,1)
+            
+	        var origin = new Point(scope.view.center.x, scope.view.bounds.y);
+	        var destination = new Point(scope.view.center.x, scope.view.bounds.height);
+            
+	        path.fillColor = {
+		        gradient: {
+		    	    stops: [[warp_low, 0], [warp_high, 1]],
+		        },
+		        origin: origin,
+		        destination: destination
+		        };
+            
+            /*var curr_rate = 0
+		    var pirate = 3.75
+		    var rate = 0.01
+            var alpha = 0.8
+            var row_width = 1*/
+            
+            var curr_rate = 0
+            var rate = -0.01
+            var pirate = 3.5
+            var alpha = 0.8
+            var row_width = 1
             var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
             
             //update twill
@@ -141,8 +164,8 @@ canvas[resize] {
                     }
 
             var png = new Raster({
-                source: 'raw/standard-featured-shadow.png',
-                position: new Point(scope2.view.center.x+2, scope2.view.center.y-7)
+                source: 'raw/rivet-shadow-light.png',
+                position: new Point(scope2.view.center.x-1, scope2.view.center.y)
             })
             png.scale(0.5)
 

@@ -43,11 +43,35 @@ canvas[resize] {
         // denim wallpaper background size and position
 		var frame_size = new Size(view.bounds.width, view.bounds.height)
 		var frame_top_left = new Point(view.bounds.x, view.bounds.y)
+		var rect = new Rectangle(frame_top_left, frame_size);
+		var path = new Path.Rectangle(rect);
+        //var warp_high = new Color(119/255, 136/255, 153/255,1)
+	    //var warp_low = new Color(0,0,0,0.99)
+
+        var warp_high = new Color(119/255, 136/255, 153/255,1)
+	    var warp_low = new Color(1,1,1,1)
+	
+	    var origin = new Point(view.center.x, view.bounds.y);
+	    var destination = new Point(view.center.x, view.bounds.height);
+
+	    path.fillColor = {
+		    gradient: {
+			    stops: [[warp_low, 0], [warp_high, 1]],
+		    },
+		    origin: origin,
+		    destination: destination
+		    };
+
+        /*var curr_rate = 0
+		var pirate = 3.75
+		var rate = 0.01
+        var alpha = 0.8
+        var row_width = 1*/
 
         var curr_rate = 0
-        var rate = -0.005
+        var rate = -0.01
         var pirate = 3.5
-        var alpha = 0.5
+        var alpha = 0.8
         var row_width = 1
 
         var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
@@ -75,7 +99,7 @@ canvas[resize] {
                 }
 
 		var shadow = new Raster({
-    		source: 'raw/standard-featured-shadow.png',
+    		source: 'raw/rivet-shadow-light.png',
     		position: [view.center.x -10, view.center.y+25]
 		});
 		shadow.scale(0.55);
