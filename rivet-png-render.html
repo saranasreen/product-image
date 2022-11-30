@@ -68,6 +68,14 @@ canvas[resize] {
                         <option value="bo">Black Oxide</option>
                     </select>
                 </span>
+
+                <span class="inputfield">
+                    <label for="backgroundInput">Backgound Mode</label>
+                    <select id="backgroundInput">
+                        <option selected = "selected" value="twill">Twill</option>
+                        <option value="none">None</option>
+                    </select>
+                </span>
     
             </div>
         </div>
@@ -168,11 +176,9 @@ canvas[resize] {
                 position: new Point(scope2.view.center.x-1, scope2.view.center.y)
             })
             png.scale(0.5)
-
-            
+                        
             scope2.activate();
-
-            
+  
             var pla_colors = {
                 'black': '#000',
                 'blue': '#009',
@@ -278,9 +284,19 @@ canvas[resize] {
 
             }
 
+            function backgroundSelect(){
+                if(this.value == 'twill'){
+                    //init twill
+                }
+                if(this.value == 'none'){
+                    //delete twill
+                }
+            }
+
             document.getElementById("colorInput").onchange = colorSelect
             document.getElementById("additionalInput").onchange = additionalSelect
             document.getElementById("l2Input").onchange = l2Select
+            document.getElementById("backgroundInput").onchange = backgroundSelect
     
         }
     </script> 

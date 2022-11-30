@@ -175,7 +175,7 @@ canvas[resize] {
 
             var png = new Raster({
                 source: 'raw/cap-shadow-light.png',
-                position: new Point(scope2.view.center.x+2, scope2.view.center.y-18)
+                position: new Point(scope2.view.center.x, scope2.view.center.y-22)
             })
             png.scale(0.5)
 
@@ -262,6 +262,7 @@ canvas[resize] {
                 }
             
             }
+            
             function sizeSelect(){
                 console.log('change')
                 png1.source = png1.source.slice(0,png1.source.length-6) + this.value + '.png'

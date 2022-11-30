@@ -50,7 +50,7 @@ canvas[resize] {
         var alpha = 0.5
         var row_width = 1
 
-        var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
+       /* var tile = init_twill(frame_top_left, frame_size, resolution, alpha)
 
         //update twill
 
@@ -72,10 +72,10 @@ canvas[resize] {
 				}
 
 					}
-                }
+                }*/
 
 		var raster = new Raster({
-    		source: 'raw/cap-featured-shadow.png',
+    		source: 'raw/cap-shadow.png',
     		position: [view.bounds.x + (view.bounds.width * 1/5), view.center.y-25]
 		});
 		raster.scale(0.15);
@@ -90,7 +90,7 @@ canvas[resize] {
 		var text = new PointText({
     		point: [view.bounds.x + (view.bounds.width * 1/5), view.center.y+80],
     		content: '11.5 mm / 0.45 in',
-    		fillColor: '#f8f8f8',
+    		fillColor: '#000',
     		fontFamily: 'Times New Roman',
     		fontWeight: 'bold',
 			justification: 'center',
@@ -98,7 +98,7 @@ canvas[resize] {
 		});
 
 		var raster = new Raster({
-    		source: 'raw/cap-featured-shadow.png',
+    		source: 'raw/cap-shadow.png',
     		position: [view.bounds.x + (view.bounds.width * 2/5), view.center.y-25]
 		});
 		raster.scale(0.15);
@@ -112,7 +112,7 @@ canvas[resize] {
 		var text = new PointText({
     		point: [view.bounds.x + (view.bounds.width * 2/5), view.center.y+80],
     		content: '13.5 mm / 0.53 in',
-    		fillColor: '#f8f8f8',
+    		fillColor: '#000',
     		fontFamily: 'Times New Roman',
     		fontWeight: 'bold',
 			justification: 'center',
@@ -120,7 +120,7 @@ canvas[resize] {
 		});
 
 		var raster = new Raster({
-    		source: 'raw/cap-featured-shadow.png',
+    		source: 'raw/cap-shadow.png',
     		position: [view.bounds.x + (view.bounds.width * 3/5), view.center.y-25]
 		});
 		raster.scale(0.15);
@@ -134,7 +134,7 @@ canvas[resize] {
 		var text = new PointText({
     		point: [view.bounds.x + (view.bounds.width * 3/5), view.center.y+80],
     		content: '15 mm / 0.6 in',
-    		fillColor: '#f8f8f8',
+    		fillColor: '#000',
     		fontFamily: 'Times New Roman',
     		fontWeight: 'bold',
 			justification: 'center',
@@ -142,7 +142,7 @@ canvas[resize] {
 		});
 
 		var raster = new Raster({
-    		source: 'raw/cap-featured-shadow.png',
+    		source: 'raw/cap-shadow.png',
     		position: [view.bounds.x + (view.bounds.width * 4/5), view.center.y-25]
 		});
 		raster.scale(0.15);
@@ -156,7 +156,7 @@ canvas[resize] {
 		var text = new PointText({
     		point: [view.bounds.x + (view.bounds.width * 4/5), view.center.y+80],
     		content: '17 mm / 0.66 in',
-    		fillColor: '#f8f8f8',
+    		fillColor: '#000',
     		fontFamily: 'Times New Roman',
     		fontWeight: 'bold',
 			justification: 'center',
