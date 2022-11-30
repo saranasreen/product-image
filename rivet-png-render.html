@@ -172,7 +172,7 @@ canvas[resize] {
                     }
 
             var png = new Raster({
-                source: 'raw/rivet-shadow-light.png',
+                source: 'raw/rivet-iso-shadow.png',
                 position: new Point(scope2.view.center.x-1, scope2.view.center.y)
             })
             png.scale(0.5)
@@ -180,9 +180,9 @@ canvas[resize] {
             scope2.activate();
   
             var pla_colors = {
-                'black': '#000',
+                'black': '#333',
                 'blue': '#009',
-                'green': '#033',
+                'green': '#066',
                 'grey': '#708090',
                 'olive': '#bdb76b',
                 'orange': '#f63',
@@ -201,7 +201,7 @@ canvas[resize] {
             c.fillColor = pla_colors['blue']
 
             var png1 = new Raster({
-                source: 'raw/standard-01-01.png',
+                source: 'raw/rivet-iso-render-00-1.png',
                 position: scope2.view.center
             })
             png1.scale(0.5)
@@ -209,7 +209,7 @@ canvas[resize] {
             console.log(png1)
 
             var png2 = new Raster({
-                source: 'raw/standard-01-01.png',
+                source: 'raw/rivet-iso-render-00-1.png',
                 position: scope2.view.center
             })
             png2.scale(0.5)
@@ -233,21 +233,21 @@ canvas[resize] {
             c2.fillColor = pla_colors['blue']
 
             var png3 = new Raster({
-                source: 'raw/standard-02-01.png',
+                source: 'raw/rivet-iso-render-01-1.png',
                 position: scope3.view.center
             })
             png3.scale(0.5)
             png3.blendMode = 'destination-atop'
 
             var png4 = new Raster({
-                source: 'raw/standard-02-01.png',
+                source: 'raw/rivet-iso-render-01-1.png',
                 position: scope2.view.center
             })
             png4.scale(0.5)
             png4.blendMode = 'multiply'
 
             var png3 = new Raster({
-                source: 'raw/standard-ss.png',
+                source: 'raw/rivet-ss.png',
                 position: scope2.view.center
             })
             png3.scale(0.5)
@@ -255,9 +255,7 @@ canvas[resize] {
 
             function colorSelect(){
                 c.fillColor = pla_colors[this.value]
-                if(this.value=='black' ){
-                    png2.blendMode = 'hard-light'
-                } else if(this.value=='white' ){
+                if(this.value=='white' ){
                     png2.blendMode = 'average'
                 } else {
                     png2.blendMode = 'multiply'
@@ -274,9 +272,7 @@ canvas[resize] {
             
             function l2Select(){
                 c2.fillColor = pla_colors[this.value]
-                if(this.value=='black' ){
-                    png4.blendMode = 'hard-light'
-                } else if(this.value=='white' ){
+                if(this.value=='white' ){
                     png4.blendMode = 'average'
                 } else {
                     png4.blendMode = 'multiply'
